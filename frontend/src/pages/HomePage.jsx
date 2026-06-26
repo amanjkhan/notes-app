@@ -6,7 +6,7 @@ import NoteCard from "../components/NoteCard";
 import AddNoteBtn from "../components/AddNoteBtn";
 import MessageBox from "../components/MessageBox";
 
-export default function HomePage() {
+export default function HomePage({ onServerDown }) {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({});
@@ -22,6 +22,10 @@ export default function HomePage() {
       setTimeout(() => {
         setMessage({});
       }, 3000);
+      if (!error.response) {
+        onServerDown();
+        return;
+      }
     } finally {
       setLoading(false);
     }
